@@ -27,11 +27,14 @@ ENV PG_VERSION 14.6
 ENV PG_SHA256 508840fc1809d39ab72274d5f137dabb9fd7fb4f933da4168aeebb20069edf22
 
 ADD postgresql.tar.bz2 /usr/src/
+# explicitly update autoconf config.guess and config.sub so they support more arches/libcs
+ADD config.guess /usr/src/postgresql/config/
+ADD config.sub /usr/src/postgresql/config/
 RUN set -eux; \
 	\
-	ls -l /usr/src/; \
 	mv /usr/src/postgresql-14.6 /usr/src/postgresql; \
 	ls -l /usr/src/postgresql; \
+	ls -l /usr/src/postgresql/config; \
 	\
 	apk add --no-cache --virtual .build-deps \
 		bison \
@@ -70,9 +73,7 @@ RUN set -eux; \
 	mv src/include/pg_config_manual.h.new src/include/pg_config_manual.h; \
 	echo '#undef USE_FLOAT8_BYVAL' >> src/include/pg_config_manual.h; \
 	gnuArch="aarch64-linux-gnu"; \
-# explicitly update autoconf config.guess and config.sub so they support more arches/libcs
-	wget -O config/config.guess 'https://git.savannah.gnu.org/cgit/config.git/plain/config.guess?id=7d3d27baf8107b630586c962c057e22149653deb'; \
-	wget -O config/config.sub 'https://git.savannah.gnu.org/cgit/config.git/plain/config.sub?id=7d3d27baf8107b630586c962c057e22149653deb'; \
+	
 # configure options taken from:
 # https://anonscm.debian.org/cgit/pkg-postgresql/postgresql.git/tree/debian/rules?h=9.5
 	./configure \
