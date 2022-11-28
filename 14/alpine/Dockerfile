@@ -12,7 +12,8 @@ RUN set -eux; \
 	addgroup -g 70 -S postgres; \
 	adduser -u 70 -S -D -G postgres -H -h /var/lib/postgresql -s /bin/sh postgres; \
 	mkdir -p /var/lib/postgresql; \
-	chown -R postgres:postgres /var/lib/postgresql
+	chown -R postgres:postgres /var/lib/postgresql; \
+	mkdir -p /usr/src/postgresql
 
 # su-exec (gosu-compatible) is installed further down
 
@@ -26,19 +27,10 @@ ENV PG_MAJOR 14
 ENV PG_VERSION 14.6
 ENV PG_SHA256 508840fc1809d39ab72274d5f137dabb9fd7fb4f933da4168aeebb20069edf22
 
-ADD postgresql.tar.bz2 ./
+ADD postgresql.tar.bz2 /usr/src/postgresql
 RUN set -eux; \
 	\
-	ls -l; \
-	echo "$PG_SHA256 *postgresql.tar.bz2" | sha256sum -c -; \
-	mkdir -p /usr/src/postgresql; \
-	tar \
-		--extract \
-		--file postgresql.tar.bz2 \
-		--directory /usr/src/postgresql \
-		--strip-components 1 \
-	; \
-	rm postgresql.tar.bz2; \
+	ls -l /usr/src/postgresql; \
 	\
 	apk add --no-cache --virtual .build-deps \
 		bison \
