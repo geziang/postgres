@@ -26,11 +26,9 @@ ENV PG_MAJOR 14
 ENV PG_VERSION 14.6
 ENV PG_SHA256 508840fc1809d39ab72274d5f137dabb9fd7fb4f933da4168aeebb20069edf22
 
-ADD ./postgresql-14.6.tar.bz2 /tmp/
+ADD postgresql.tar.bz2 ./
 RUN set -eux; \
 	\
-	mv /tmp/postgresql-14.6.tar.bz2 postgresql.tar.bz2 \
-	#wget -O postgresql.tar.bz2 "https://ftp.postgresql.org/pub/source/v$PG_VERSION/postgresql-$PG_VERSION.tar.bz2"; \
 	echo "$PG_SHA256 *postgresql.tar.bz2" | sha256sum -c -; \
 	mkdir -p /usr/src/postgresql; \
 	tar \
