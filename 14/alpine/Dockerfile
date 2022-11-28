@@ -27,12 +27,13 @@ ENV PG_VERSION 14.6
 ENV PG_SHA256 508840fc1809d39ab72274d5f137dabb9fd7fb4f933da4168aeebb20069edf22
 
 ADD postgresql.tar.bz2 /usr/src/
+RUN set -eux; mv /usr/src/postgresql-14.6 /usr/src/postgresql
+
 # explicitly update autoconf config.guess and config.sub so they support more arches/libcs
 ADD config.guess /usr/src/postgresql/config/
 ADD config.sub /usr/src/postgresql/config/
 RUN set -eux; \
 	\
-	mv /usr/src/postgresql-14.6 /usr/src/postgresql; \
 	ls -l /usr/src/postgresql; \
 	ls -l /usr/src/postgresql/config; \
 	\
