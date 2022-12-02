@@ -72,8 +72,8 @@ RUN set -eux; \
 	awk '$1 == "#define" && $2 == "DEFAULT_PGSOCKET_DIR" && $3 == "\"/tmp\"" { $3 = "\"/var/run/postgresql\""; print; next } { print }' src/include/pg_config_manual.h > src/include/pg_config_manual.h.new; \
 	grep '/var/run/postgresql' src/include/pg_config_manual.h.new; \
 	mv src/include/pg_config_manual.h.new src/include/pg_config_manual.h; \
-	echo '#undef USE_FLOAT8_BYVAL' >> src/include/pg_config_manual.h; \
-	gnuArch="aarch64-linux-gnu"; \
+	echo '#define USE_FLOAT8_BYVAL 1' >> src/include/pg_config_manual.h; \
+	gnuArch="armhf-linux-gnu"; \
 	
 # configure options taken from:
 # https://anonscm.debian.org/cgit/pkg-postgresql/postgresql.git/tree/debian/rules?h=9.5
