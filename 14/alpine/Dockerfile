@@ -73,7 +73,7 @@ RUN set -eux; \
 	grep '/var/run/postgresql' src/include/pg_config_manual.h.new; \
 	mv src/include/pg_config_manual.h.new src/include/pg_config_manual.h; \
 	echo '#define USE_FLOAT8_BYVAL 1' >> src/include/pg_config_manual.h; \
-	gnuArch="armhf-linux-gnu"; \
+	gnuArch="arm-linux-gnu"; \
 	
 # configure options taken from:
 # https://anonscm.debian.org/cgit/pkg-postgresql/postgresql.git/tree/debian/rules?h=9.5
